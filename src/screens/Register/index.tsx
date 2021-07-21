@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-native'
+import { useForm } from 'react-hook-form'
+
+import { Input } from '../../components/Form/Input';
+import { InputForm } from '../../components/Form/InputForm';
+import { Button } from '../../components/Form/Button';
+import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
+import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
+
+import { CategorySelect } from '../CategorySelect'
+
 import {
   Container,
   Header,
@@ -7,14 +17,12 @@ import {
   Form,
   Fields,
   TransactionTypes
-} from './styles'
+} from './styles';
 
-import { Input } from '../../components/Form/Input';
-import { Button } from '../../components/Form/Button';
-import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
-import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
-
-import { CategorySelect } from '../CategorySelect'
+interface FormData {
+  name: string;
+  amount: string;
+}
 
 export function Register() {
 
@@ -26,6 +34,10 @@ export function Register() {
     name: 'Categoria',
   });
 
+  const {
+    control,
+    handleSubmit
+  } = useForm();
 
   function handleTransactionTypeSelect(type: 'up' | 'down') {
     setTransactionType(type);
@@ -39,6 +51,15 @@ export function Register() {
     setCategoryModalOpen(false);
   }
 
+  function handleRegister(form: FormData) {
+    const data = {
+      name: form.name,
+      amount: form.amount,
+      transactionType,
+      category: category.key,
+    }
+    console.log(data)
+  }
 
 
   return (
@@ -49,10 +70,14 @@ export function Register() {
 
       <Form>
         <Fields>
-          <Input
+          <InputForm
+            name="name"
+            control={control}
             placeholder="Nome"
           />
-          <Input
+          <InputForm
+            name="amount"
+            control={control}
             placeholder="Preço"
           />
           <TransactionTypes>
@@ -78,6 +103,7 @@ export function Register() {
 
         <Button
           title="Enviar"
+          onPress={handleSubmit(handleRegister)}
         />
       </Form>
 
