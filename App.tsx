@@ -4,6 +4,8 @@ import React from 'react';
 import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components';
 
+import { NavigationContainer } from '@react-navigation/native'
+
 import {
   useFonts,
   Poppins_400Regular,
@@ -12,7 +14,7 @@ import {
 } from '@expo-google-fonts/poppins'
 
 import theme from './src/global/styles/theme';
-import { Dashboard } from './src/screens/Dashboard';
+import { AppRoutes } from './src/routes/app.routes';
 
 
 export default function App() {
@@ -28,7 +30,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Dashboard />
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>
     </ThemeProvider>
 
   )
